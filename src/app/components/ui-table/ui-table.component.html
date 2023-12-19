@@ -1,0 +1,26 @@
+<div class="card">
+  <p-table
+    [columns]="tableCols"
+    [value]="forecastData"
+    [paginator]="true"
+    [showCurrentPageReport]="true"
+    [rows]="10"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of tableCols" [pSortableColumn]="col.field">
+          {{ col.header }}<p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td *ngFor="let col of tableCols">
+          {{ rowData[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

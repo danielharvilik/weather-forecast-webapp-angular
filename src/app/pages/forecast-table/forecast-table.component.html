@@ -1,0 +1,18 @@
+<section>
+  <p-selectButton
+    [options]="forecastModel"
+    [(ngModel)]="selectedForecastModel"
+    optionLabel="label"
+    optionValue="value"
+    [allowEmpty]="false"
+    class="ml-2"
+  ></p-selectButton>
+  <div class="mt-5">
+    <app-ui-table
+      [tableCols]="tableCols"
+      [forecastData]="
+        selectedForecastModel === 'forecast' ? forecastData : historyData
+      "
+    ></app-ui-table>
+  </div>
+</section>

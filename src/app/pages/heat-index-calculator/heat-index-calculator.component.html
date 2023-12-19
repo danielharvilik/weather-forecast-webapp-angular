@@ -1,0 +1,89 @@
+<section class="mt-8">
+  <div class="flex flex-1 flex-row items-center">
+    <label
+      [class]="
+        !isInputTemperatureValueValid ? 'mb-7  default-text' : 'default-text'
+      "
+      for="temperature"
+      >Temperature:
+    </label>
+    <div>
+      <div class="flex flex-1 flex-row items-center">
+        <p-inputNumber
+          inputId="temperature"
+          [(ngModel)]="temperature"
+          (onInput)="onInputTemperatureChange($event)"
+          [showButtons]="true"
+          mode="decimal"
+          [suffix]="selectedTemperatureUnit === 'celsius' ? ' °C' : ' °F'"
+          [class]="
+            !isInputTemperatureValueValid ? 'ng-invalid ng-dirty ml-2' : 'ml-2'
+          "
+        >
+        </p-inputNumber>
+        <p-selectButton
+          [options]="temperatureUnits"
+          [(ngModel)]="selectedTemperatureUnit"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          class="ml-2"
+          (onChange)="onTemperatureUnitChange($event)"
+        ></p-selectButton>
+      </div>
+
+      <div
+        *ngIf="!isInputTemperatureValueValid"
+        class="ml-2 mt-2 text-sm text-red-800 dark:text-red-400"
+        role="alert"
+      >
+        <span class="font-medium"
+          >Heat Index value cannot be calculated for temperatures less than
+          26.7°C or 80°F.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="mt-2">
+    <label class="default-text" for="humidity">Relative Humidity: </label>
+    <p-inputNumber
+      inputId="humidity"
+      [(ngModel)]="humidity"
+      [showButtons]="true"
+      [max]="100"
+      mode="decimal"
+      suffix=" %"
+    >
+    </p-inputNumber>
+  </div>
+  <button
+    [disabled]="!isInputTemperatureValueValid"
+    pButton
+    pRipple
+    (click)="calculateHeatIndex()"
+    class="p-button-success mt-2 font-bold"
+  >
+    Calculate
+  </button>
+  <div>
+    <h3 class="default-text">Calculation History</h3>
+    <p-table
+      [value]="heatIndexHistory"
+      styleClass="p-datatable-gridlines"
+      [tableStyle]="{ 'max-width': '10rem', 'border-radius': '10px' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="index-column"></th>
+          <th class="value-column default-text">Value</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-heatIndex let-i="rowIndex">
+        <tr>
+          <td class="index-column">{{ i + 1 }}</td>
+          <td class="value-column">{{ heatIndex }} °F</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>

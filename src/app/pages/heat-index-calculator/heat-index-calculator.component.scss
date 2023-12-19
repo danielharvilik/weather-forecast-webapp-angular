@@ -1,0 +1,26 @@
+.p-datatable {
+    border-radius: 10px;
+    overflow: hidden; /* Ensure the corners are rounded */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a shadow for a visual effect */
+  }
+  
+  /* Apply border-radius to the table header */
+  .p-datatable .p-datatable-thead {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  /* Apply border-radius to the table body */
+  .p-datatable .p-datatable-tbody {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .index-column, .value-column {
+    text-align: center;
+  }
+
+  .default-text {
+    color: #6b7280;
+    font-weight: 700;
+  }
