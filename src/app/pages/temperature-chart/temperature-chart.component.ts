@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartModule } from 'primeng/chart';
-import { WeatherService } from '../../services/weather-data.service';
-import { HttpClientModule } from '@angular/common/http';
-import { animation } from '@angular/animations';
-import { callback } from 'chart.js/dist/helpers/helpers.core';
-import { formatDateString } from '../../helpers/helper-functions';
+import { Component, OnInit } from "@angular/core";
+import { ChartModule } from "primeng/chart";
+import { WeatherService } from "../../services/weather-data.service";
+import { HttpClientModule } from "@angular/common/http";
+import { animation } from "@angular/animations";
+import { callback } from "chart.js/dist/helpers/helpers.core";
+import { formatDateString } from "../../helpers/helper-functions";
 
 @Component({
-  selector: 'app-temperature-chart',
+  selector: "app-temperature-chart",
   standalone: true,
   imports: [ChartModule, HttpClientModule],
-  templateUrl: './temperature-chart.component.html',
-  styleUrl: './temperature-chart.component.scss',
+  templateUrl: "./temperature-chart.component.html",
+  styleUrl: "./temperature-chart.component.scss",
 })
 export class TemperatureChartComponent implements OnInit {
-  data: any;
+  data = [];
 
-  options: any;
+  options = [];
 
   timeStamps!: string[];
   temperatures!: number[];
@@ -25,11 +25,11 @@ export class TemperatureChartComponent implements OnInit {
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColor = documentStyle.getPropertyValue("--text-color");
     const textColorSecondary = documentStyle.getPropertyValue(
-      '--text-color-secondary'
+      "--text-color-secondary"
     );
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
 
     this.weatherService.getOneWeekForecastOpenMeteoData().subscribe((data) => {
       this.timeStamps = data.hourly.time;
@@ -40,10 +40,10 @@ export class TemperatureChartComponent implements OnInit {
         ),
         datasets: [
           {
-            label: 'First Dataset',
+            label: "First Dataset",
             data: this?.temperatures,
             fill: false,
-            borderColor: documentStyle.getPropertyValue('--blue-500'),
+            borderColor: documentStyle.getPropertyValue("--blue-500"),
             tension: 0.4,
           },
         ],
@@ -56,7 +56,7 @@ export class TemperatureChartComponent implements OnInit {
       animation: false,
       plugins: {
         legend: {
-          display: false
+          display: false,
         },
         tooltip: {
           enabled: true,
@@ -75,7 +75,7 @@ export class TemperatureChartComponent implements OnInit {
         y: {
           ticks: {
             color: textColorSecondary,
-            callback: (value: any) => `${value} °C`,
+            callback: (value: number) => `${value} °C`,
           },
           grid: {
             color: surfaceBorder,

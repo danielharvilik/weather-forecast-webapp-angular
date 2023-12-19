@@ -23,10 +23,10 @@ export class WeatherService {
   constructor(private http: HttpClient) {}
 
   getOneWeekForecastOpenMeteoData(){
-    return this.http.get<any>(this.forecastUrl);
+    return this.http.get(this.forecastUrl);
   }
 
   getPastWeekForecastOpenMeteoData(){
-    return this.http.get<any>(this.historyUrl);
+    return this.http.get(this.historyUrl);
   }
 }

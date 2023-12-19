@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { UiTableComponent } from '../../components/ui-table/ui-table.component';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IForecastData, ITableColumn } from '../../models/models';
-import { HttpClientModule } from '@angular/common/http';
-import { formatDateString } from '../../helpers/helper-functions';
-import { WeatherService } from '../../services/weather-data.service';
+import { Component } from "@angular/core";
+import { UiTableComponent } from "../../components/ui-table/ui-table.component";
+import { SelectButtonModule } from "primeng/selectbutton";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { IForecastData, ITableColumn } from "../../models/models";
+import { HttpClientModule } from "@angular/common/http";
+import { formatDateString } from "../../helpers/helper-functions";
+import { WeatherService } from "../../services/weather-data.service";
 
 @Component({
-  selector: 'app-forecast-table',
+  selector: "app-forecast-table",
   standalone: true,
   imports: [
     CommonModule,
@@ -18,46 +18,47 @@ import { WeatherService } from '../../services/weather-data.service';
     SelectButtonModule,
     HttpClientModule,
   ],
-  templateUrl: './forecast-table.component.html',
-  styleUrl: './forecast-table.component.scss',
+  templateUrl: "./forecast-table.component.html",
+  styleUrl: "./forecast-table.component.scss",
 })
 export class ForecastTableComponent {
   tableCols!: ITableColumn[];
   forecastData!: IForecastData[];
   historyData!: IForecastData[];
-  forecastModel: any[] = [
-    { label: 'Forecast', value: 'forecast' },
-    { label: 'History', value: 'history' },
+  forecastModel = [
+    { label: "Forecast", value: "forecast" },
+    { label: "History", value: "history" },
   ];
-  selectedForecastModel: string = 'forecast';
+  selectedForecastModel: string = "forecast";
 
-  constructor(
-    private weatherService: WeatherService
-  ) {}
+  constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
-    this.weatherService.getOneWeekForecastOpenMeteoData().subscribe((data) => {
-      console.log('fetching', data);
+    this.weatherService.getOneWeekForecastOpenMeteoData().subscribe((data: any) => {
       this.forecastData = this.transformData(data.hourly);
     });
-    this.weatherService
-      .getPastWeekForecastOpenMeteoData()
-      .subscribe((data: any) => {
-        console.log('fetching', data);
-        this.historyData = this.transformData(data.hourly);
-      });
+    this.weatherService.getPastWeekForecastOpenMeteoData().subscribe((data: any) => {
+      this.historyData = this.transformData(data.hourly);
+    });
 
     this.tableCols = [
-      { field: 'datetime', header: 'Datetime' },
-      { field: 'rain', header: 'Rain' },
-      { field: 'temperature', header: 'Temperature (°C)' },
-      { field: 'surfacePressure', header: 'Surface Pressure' },
-      { field: 'relativeHumidity', header: 'Relative Humidity' },
-      { field: 'wind', header: 'Wind (km/h)' },
+      { field: "datetime", header: "Datetime" },
+      { field: "rain", header: "Rain" },
+      { field: "temperature", header: "Temperature (°C)" },
+      { field: "surfacePressure", header: "Surface Pressure" },
+      { field: "relativeHumidity", header: "Relative Humidity" },
+      { field: "wind", header: "Wind (km/h)" },
     ];
   }
 
-  transformData(originalData: any): IForecastData[] {
+  transformData(originalData: {
+    time: string[];
+    temperature_2m: number[];
+    relative_humidity_2m: number[];
+    rain: number[];
+    surface_pressure: number[];
+    wind_speed_10m: number[];
+  }): IForecastData[] {
     const transformedData: IForecastData[] = [];
 
     for (let i = 0; i < originalData.time.length; i++) {

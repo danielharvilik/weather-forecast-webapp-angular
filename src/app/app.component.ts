@@ -54,9 +54,7 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        // Get and display the active route
         this.activeRoute = this.router.url;
-        console.log(this.activeRoute);
         if (this.activeRoute.includes('temperature-chart')) {
           this.activeItem = this.items[1];
         } else if (this.activeRoute.includes('heat-index-calculator')) {
